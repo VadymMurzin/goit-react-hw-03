@@ -1,3 +1,4 @@
+import css from './app.module.css';
 import { useState, useEffect } from 'react';
 import ContactList from './ContactList';
 import SearchBar from './SearchBar';
@@ -35,11 +36,11 @@ export default function App() {
   }, [contacts]);
 
   return (
-    <div>
-      <h1>Contact List</h1>
+    <div className={css.container}>
+      <h1>Phonebook</h1>
+      <ContactForm onAddContact={handleAddContact} />
       <SearchBar filter={filter} onFilterChange={handleFilterChange} />
       <ContactList contacts={filteredContacts} onDeleteContact={handleDeleteContact} />
-      <ContactForm onAddContact={handleAddContact} />
     </div>
   );
 }
