@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ContactList from './ContactList';
 import SearchBar from './SearchBar';
 import ContactForm from './ContactForm';
 
 export default function App() {
-  const initialContacts = [
+  const initialContacts = JSON.parse(localStorage.getItem('contacts')) || [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
@@ -26,11 +26,19 @@ export default function App() {
     setContacts((prevContacts) => [...prevContacts, newContact]);
   };
 
+  const handleDeleteContact = (contactId) => {
+    setContacts((prevContacts) => prevContacts.filter(contact => contact.id !== contactId));
+  };
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
   return (
     <div>
       <h1>Contact List</h1>
       <SearchBar filter={filter} onFilterChange={handleFilterChange} />
-      <ContactList contacts={filteredContacts} />
+      <ContactList contacts={filteredContacts} onDeleteContact={handleDeleteContact} />
       <ContactForm onAddContact={handleAddContact} />
     </div>
   );
